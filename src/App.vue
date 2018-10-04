@@ -1,6 +1,14 @@
 <template>
   <div id="app">
     <div class="container is-fluid">
+      <div class="modal" v-bind:class="{ 'is-active': LoginModal }">
+        <div class="modal-background"></div>
+        <div class="modal-content">
+          <!-- Any other Bulma elements you want -->
+        </div>
+        <button class="modal-close is-large" aria-label="close" v-on:click="LoginModal = !LoginModal"></button>
+      </div>
+
       <nav class="navbar" role="navigation" aria-label="main navigation">
         <div class="navbar-brand">
           <router-link to="/" class="navbar-item">
@@ -18,7 +26,7 @@
           <div class="navbar-start">
             <div class="navbar-item">
               <div class="buttons">
-                <a class="button is-success">
+                <a class="button is-success" v-on:click="LoginModal = !LoginModal">
                   Войти
                 </a>
               </div>
@@ -57,6 +65,8 @@
 </template>
 
 <script>
+import store from "./store";
+
 document.addEventListener('DOMContentLoaded', () => {
 
   // Get all "navbar-burger" elements
@@ -87,10 +97,13 @@ import Loader from "./components/Loader";
 import NavbarLogo from "./components/NavbarLogo"
 
 export default {
-  components: {Loader, NavbarLogo}
+  components: {Loader, NavbarLogo},
+  data: function () {
+    return {
+      LoginModal: false
+    }
+  }
 }
-
-// const axios = require('axios');
 
 </script>
 

@@ -4,8 +4,7 @@
 
 <script>
 export default {
-  name: "NavbarLogo",
-  props: {}
+  name: "NavbarLogo"
 }
 </script>
 

@@ -1,4 +1,5 @@
 <template>
+  <keep-alive>
   <div class="home">
     <div class="container is-fluid">
       <div class="columns">
@@ -19,6 +20,7 @@
     </div>
     <!--<HelloWorld msg="Welcome to Your Vue.js App"/>-->
   </div>
+  </keep-alive>
 </template>
 
 <script>
@@ -26,11 +28,9 @@
 import Loader from "@/components/Loader.vue"
 import NavbarLogo from "@/components/NavbarLogo.vue"
 
+
 export default {
   name: "home",
-  components: {
-    NavbarLogo,
-    Loader
-  }
+  components: {NavbarLogo, Loader}
 }
 </script>
