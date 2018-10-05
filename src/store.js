@@ -9,7 +9,8 @@ export default new Vuex.Store({
     // token: ""
     token: "PcSAersJxeoZqxQZtGbugA",
     users: [],
-    currentUser: null
+    currentUser: null,
+    raids: []
   },
   mutations: {
     updateLoginModal(state) {
@@ -23,6 +24,9 @@ export default new Vuex.Store({
     },
     updateCurrentUser(state, value){
       state.currentUser = value
+    },
+    updateRaids(state, value){
+      state.raids = value
     }
   },
   actions: {

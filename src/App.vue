@@ -51,19 +51,12 @@
               </a>
 
               <div class="navbar-dropdown">
-                <a class="navbar-item">
-                  Raven 1
-                </a>
-                <a class="navbar-item">
-                  Raven 2
-                </a>
-                <a class="navbar-item">
-                  Julia 1
-                </a>
-                <hr class="navbar-divider">
-                <a class="navbar-item">
-                  Battleground
-                </a>
+                <div v-for="raid in raids">
+                  <a class="navbar-item">
+                    {{raid["title"]}}
+                  </a>
+                  <hr class="navbar-divider">
+                </div>
               </div>
             </div>
           </div>
@@ -78,6 +71,7 @@
 
 <script>
 import store from "./store";
+import axios from "axios";
 
 document.addEventListener('DOMContentLoaded', () => {
 
@@ -132,7 +126,34 @@ export default {
       set(value) {
         store.commit("updateToken", value)
       }
+    },
+    raids: {
+      get() {
+        return store.state.raids;
+      },
+      set(value) {
+        store.commit("updateRaids", value)
+      }
     }
+  },
+  methods : {
+    GetAllRaids: function (token) {
+      let mainThis = this;
+      axios({
+        method: "get",
+        url: "http://192.168.1.100:8000/raid",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Token " + token
+        }
+      }).then(function (response) {
+        console.log(response.data);
+        mainThis.raids = response.data;
+      })
+    }
+  },
+  created: function () {
+    this.GetAllRaids(this.token)
   }
 }
 
