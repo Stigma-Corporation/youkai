@@ -4,9 +4,9 @@
       <div class="modal" v-bind:class="{ 'is-active': LoginModal }">
         <div class="modal-background"></div>
         <div class="modal-content">
-          <!-- Any other Bulma elements you want -->
+          <LoginForm></LoginForm>
         </div>
-        <button class="modal-close is-large" aria-label="close" v-on:click="LoginModal = !LoginModal"></button>
+        <button class="modal-close is-large" aria-label="close" v-on:click="LoginModal=!LoginModal"></button>
       </div>
 
       <nav class="navbar" role="navigation" aria-label="main navigation">
@@ -25,15 +25,27 @@
         <div id="navbarBasicExample" class="navbar-menu">
           <div class="navbar-start">
             <div class="navbar-item">
-              <div class="buttons">
-                <a class="button is-success" v-on:click="LoginModal = !LoginModal">
+              <div class="buttons" v-on:click="token=''">
+                <router-link to="/" class="button is-success is-rounded" v-if="token">Выйти</router-link>
+                <a class="button is-success is-rounded" v-on:click="LoginModal=!LoginModal" v-else>
                   Войти
                 </a>
               </div>
             </div>
             <router-link to="/" class="navbar-item">Главная</router-link>
-            <router-link to="/members" class="navbar-item">Состав</router-link>
-            <div class="navbar-item has-dropdown is-hoverable">
+            <div class="navbar-item has-dropdown is-hoverable" v-if="token">
+              <a class="navbar-link">
+                Профиль
+              </a>
+
+              <div class="navbar-dropdown">
+                <router-link to="/profile/equipment" class="navbar-item" v-if="token">Профиль</router-link>
+                <router-link to="/profile/settings" class="navbar-item" v-if="token">Настройки</router-link>
+              </div>
+            </div>
+
+            <router-link to="/members" class="navbar-item" v-if="token">Состав</router-link>
+            <div class="navbar-item has-dropdown is-hoverable" v-if="token">
               <a class="navbar-link">
                 Рейды
               </a>
@@ -95,12 +107,31 @@ document.addEventListener('DOMContentLoaded', () => {
 
 import Loader from "./components/Loader";
 import NavbarLogo from "./components/NavbarLogo"
+import LoginForm from "./components/LoginForm"
 
 export default {
-  components: {Loader, NavbarLogo},
+  components: {Loader, NavbarLogo, LoginForm},
   data: function () {
     return {
-      LoginModal: false
+      // LoginModal: this.$store.state.LoginModal
+    }
+  },
+  computed: {
+    LoginModal: {
+      get() {
+        return store.state.LoginModal;
+      },
+      set() {
+        store.commit('updateLoginModal')
+      }
+    },
+    token: {
+      get() {
+        return store.state.token;
+      },
+      set(value) {
+        store.commit("updateToken", value)
+      }
     }
   }
 }

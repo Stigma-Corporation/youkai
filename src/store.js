@@ -5,12 +5,25 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    loginModal: false,
-    token: "PcSAersJxeoZqxQZtGbugA"
+    LoginModal: false,
     // token: ""
+    token: "PcSAersJxeoZqxQZtGbugA",
+    users: [],
+    currentUser: null
   },
   mutations: {
-
+    updateLoginModal(state) {
+      state.LoginModal = !state.LoginModal
+    },
+    updateToken(state, value) {
+      state.token = value
+    },
+    updateUsers(state, value){
+      state.users = value
+    },
+    updateCurrentUser(state, value){
+      state.currentUser = value
+    }
   },
   actions: {
 

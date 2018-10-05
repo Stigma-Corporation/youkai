@@ -16,7 +16,17 @@ export default new Router({
     {
       path: '/members',
       name: 'members',
-      component: () => import(/* webpackChunkName: "about" */ './views/Members.vue')
-    }
+      component: () => import('./views/Members.vue')
+    },
+    {
+      path: '/profile/equipment',
+      name: 'profile-equipment',
+      component: () => import('./views/Profile.vue')
+    },
+    {
+      path: '/profile/settings',
+      name: 'profile-settings',
+      component: () => import('./views/ProfileSettings.vue')
+    },
   ]
 })

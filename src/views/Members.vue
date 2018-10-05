@@ -6,7 +6,12 @@
         <div class="bg-img"></div>
         <div class="container is-fluid">
           <div class="columns">
-            <table v-show="token" class="table is-bordered is-narrow is-hoverable table is-fullwidth is-size-6 has-text-centered">
+            <button class="button" v-on:dblclick="GetUsers(token)">
+              Обновить
+            </button>
+          </div>
+          <div class="columns">
+            <table v-if="token" class="table is-bordered is-narrow is-hoverable table is-fullwidth is-size-6 has-text-centered">
               <thead class="has-background-info has-text-white has-text-centered">
               <tr class="has-background-info has-text-white has-text-centered">
                 <th class="has-text-white has-text-centered">№</th>
@@ -58,17 +63,17 @@
                   <div v-if="key['trainee']">
                     <abbr title="Неофит"><i class="fas fa-crown has-text-success"></i></abbr></div>
                   <div v-else>
-                    <div v-if="key['role'] == 'member'">
+                    <div v-if="key['role'] === 'member'">
                       <abbr title="Ученик"><i class="fas fa-crown has-text-warning"></i></abbr>
                     </div>
-                    <div v-else-if="key['role'] == 'staff'">
+                    <div v-else-if="key['role'] === 'staff'">
                       <abbr title="Ветеран"><i class="fas fa-crown staff-color"></i></abbr>
                     </div>
                     <div v-else><abbr title="Глава"><i class="fas fa-crown admin-color"></i></abbr></div>
                   </div>
                 </td>
                 <td class="has-text-centered">{{key["nickname"]}}</td>
-                <td class="has-text-centered">{{key["class"]}}</td>
+                <td class="has-text-centered"><ImageClasses v-bind:class-number="key['class']"></ImageClasses></td>
                 <td class="has-text-centered">{{key["equipment"]["weapon"]}}</td>
                 <td class="has-text-centered">{{key["equipment"]["soul_shields"]}}</td>
                 <td class="has-text-centered">{{key["equipment"]["necklace"]}}</td>
@@ -82,7 +87,7 @@
                 <td class="has-text-centered">{{key["equipment"]["soul"]}}</td>
                 <td class="has-text-centered">{{key["equipment"]["pendant"]}}</td>
                 <td class="has-text-centered">{{key["equipment"]["dps"]}}</td>
-                <td class="has-text-centered">{{key["equipment"]["element"]}}</td>
+                <td class="has-text-centered"><ImageElements v-bind:element-number="key['equipment']['element']"></ImageElements></td>
               </tr>
               </tbody>
             </table>
@@ -98,16 +103,33 @@
 // @ is an alias to /src
 import Loader from "@/components/Loader.vue"
 import NavbarLogo from "@/components/NavbarLogo.vue"
+import ImageClasses from "@/components/ImageClasses.vue"
+import ImageElements from "@/components/ImageElements.vue"
 import axios from "axios";
 import store from "../store";
 
 export default {
   name: "members",
-  components: {Loader, NavbarLogo},
+  components: {Loader, NavbarLogo, ImageClasses, ImageElements},
   data: function () {
     return {
-      users: null,
-      token: store.state.token
+      activeLoading: false,
+      // users: null
+    }
+  },
+  computed: {
+    token: {
+      get() {
+        return store.state.token;
+      },
+    },
+    users: {
+      get(){
+        return store.state.users;
+      },
+      set(value){
+        store.commit("updateUsers", value)
+      }
     }
   },
   methods: {
@@ -117,6 +139,7 @@ export default {
         method: "get",
         url: "http://192.168.1.100:8000/account/users",
         headers: {
+          "Content-Type": "application/json",
           "Authorization": "Token " + token
         }
       }).then(function (response) {
@@ -124,7 +147,7 @@ export default {
       })
     },
   },
-  created: function () {
+  beforeMount: function () {
     this.GetUsers(this.token)
   }
 }
