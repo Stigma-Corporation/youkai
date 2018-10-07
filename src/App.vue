@@ -25,7 +25,7 @@
         <div id="navbarBasicExample" class="navbar-menu">
           <div class="navbar-start">
             <div class="navbar-item">
-              <div class="buttons" v-on:click="token=''">
+              <div class="buttons" v-on:click="Logout">
                 <router-link to="/" class="button is-success is-rounded" v-if="token">Выйти</router-link>
                 <a class="button is-success is-rounded" v-on:click="LoginModal=!LoginModal" v-else>
                   Войти
@@ -63,6 +63,11 @@
                 </div>
               </div>
             </div>
+
+            <router-link to="/editmembers" class="navbar-item" v-on:click.native="UpdateMemberData"
+                         v-if="adminStatus === 'admin access granted'">
+              Ред. состав
+            </router-link>
           </div>
         </div>
       </nav>
@@ -135,7 +140,15 @@ export default {
       get() {
         return store.state.raids;
       },
-    }
+    },
+    adminStatus: {
+      get() {
+        return store.state.adminStatus;
+      },
+      set(value) {
+        store.commit("updateAdminStatus", value)
+      }
+    },
   },
   methods : {
     UpdateRaidData: function () {
@@ -147,6 +160,10 @@ export default {
     },
     UpdateUserData: function () {
       store.dispatch("GetCurrentUserByToken");
+    },
+    Logout: function () {
+      this.token = '';
+      this.adminStatus = '';
     }
   },
 }

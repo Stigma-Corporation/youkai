@@ -10,6 +10,7 @@ export default new Vuex.Store({
     token: "",
     // token: "PcSAersJxeoZqxQZtGbugA",
     users: [],
+    allUsers: [],
     currentUser: null,
     raids: [],
     currentRaid: null,
@@ -25,6 +26,9 @@ export default new Vuex.Store({
     },
     updateUsers(state, value){
       state.users = value
+    },
+    updateAllUsers(state, value){
+      state.allUsers = value
     },
     updateCurrentUser(state, value){
       state.currentUser = value
@@ -80,6 +84,18 @@ export default new Vuex.Store({
         }
       }).then(function (response) {
         commit("updateUsers", response.data)
+      })
+    },
+    GetAllUsers({commit, state}) {
+      axios({
+        method: "put",
+        url: "http://192.168.1.100:8000/account/users/",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Token " + state.token
+        }
+      }).then(function (response) {
+        commit("updateAllUsers", response.data)
       })
     },
     CheckAdminStatus({commit, state}){
