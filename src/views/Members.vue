@@ -6,11 +6,6 @@
         <div class="bg-img"></div>
         <div class="container is-fluid">
           <div class="columns">
-            <button class="button" v-on:dblclick="GetUsers(token)">
-              Обновить
-            </button>
-          </div>
-          <div class="columns">
             <table v-if="token" class="table is-bordered is-narrow is-hoverable table is-fullwidth is-size-6 has-text-centered">
               <thead class="has-background-info has-text-white has-text-centered">
               <tr class="has-background-info has-text-white has-text-centered">
@@ -73,7 +68,13 @@
                   </div>
                 </td>
                 <td class="has-text-centered">{{key["nickname"]}}</td>
-                <td class="has-text-centered"><ImageClasses v-bind:class-number="key['class']"></ImageClasses></td>
+                <td class="has-text-centered">
+                  <div class="box is-centered">
+                    <figure class="image is-32x32">
+                      <ImageClasses v-bind:class-number="key['class']"></ImageClasses>
+                    </figure>
+                  </div>
+                </td>
                 <td class="has-text-centered">{{key["equipment"]["weapon"]}}</td>
                 <td class="has-text-centered">{{key["equipment"]["soul_shields"]}}</td>
                 <td class="has-text-centered">{{key["equipment"]["necklace"]}}</td>
@@ -87,7 +88,13 @@
                 <td class="has-text-centered">{{key["equipment"]["soul"]}}</td>
                 <td class="has-text-centered">{{key["equipment"]["pendant"]}}</td>
                 <td class="has-text-centered">{{key["equipment"]["dps"]}}</td>
-                <td class="has-text-centered"><ImageElements v-bind:element-number="key['equipment']['element']"></ImageElements></td>
+                <td class="has-text-centered">
+                  <div class="box is-centered">
+                    <figure class="image is-32x32">
+                      <ImageElements v-bind:element-number="key['equipment']['element']"></ImageElements>
+                    </figure>
+                  </div>
+                </td>
               </tr>
               </tbody>
             </table>
@@ -105,7 +112,6 @@ import Loader from "@/components/Loader.vue"
 import NavbarLogo from "@/components/NavbarLogo.vue"
 import ImageClasses from "@/components/ImageClasses.vue"
 import ImageElements from "@/components/ImageElements.vue"
-import axios from "axios";
 import store from "../store";
 
 export default {
@@ -113,8 +119,7 @@ export default {
   components: {Loader, NavbarLogo, ImageClasses, ImageElements},
   data: function () {
     return {
-      activeLoading: false,
-      // users: null
+
     }
   },
   computed: {
@@ -127,28 +132,12 @@ export default {
       get(){
         return store.state.users;
       },
-      set(value){
-        store.commit("updateUsers", value)
-      }
     }
   },
   methods: {
-    GetUsers: function (token) {
-      let mainThis = this;
-      axios({
-        method: "get",
-        url: "http://192.168.1.100:8000/account/users",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": "Token " + token
-        }
-      }).then(function (response) {
-        mainThis.users = response.data;
-      })
-    },
   },
-  beforeMount: function () {
-    this.GetUsers(this.token)
+  created: function () {
+    store.dispatch("GetUsers");
   }
 }
 </script>

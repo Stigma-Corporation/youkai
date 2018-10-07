@@ -39,22 +39,26 @@
               </a>
 
               <div class="navbar-dropdown">
-                <router-link to="/profile/equipment" class="navbar-item" v-if="token">Профиль</router-link>
-                <router-link to="/profile/settings" class="navbar-item" v-if="token">Настройки</router-link>
+                <router-link to="/profile/equipment" class="navbar-item"
+                             v-on:click.native="UpdateUserData" v-if="token">Профиль</router-link>
+                <router-link to="/profile/settings" class="navbar-item"
+                             v-on:click.native="UpdateRaidData" v-if="token">Настройки</router-link>
               </div>
             </div>
 
-            <router-link to="/members" class="navbar-item" v-if="token">Состав</router-link>
+            <router-link to="/members" class="navbar-item" v-on:click.native="UpdateMemberData" v-if="token">
+              Состав
+            </router-link>
             <div class="navbar-item has-dropdown is-hoverable" v-if="token">
               <a class="navbar-link">
                 Рейды
               </a>
 
               <div class="navbar-dropdown">
-                <div v-for="raid in raids">
-                  <a class="navbar-item">
+                <div v-for="(raid, index) in raids">
+                  <router-link v-on:click.native="UpdateRaidData" v-bind:to="{name: 'raid', params: {id: index}}" class="navbar-item">
                     {{raid["title"]}}
-                  </a>
+                  </router-link>
                   <hr class="navbar-divider">
                 </div>
               </div>
@@ -131,30 +135,20 @@ export default {
       get() {
         return store.state.raids;
       },
-      set(value) {
-        store.commit("updateRaids", value)
-      }
     }
   },
   methods : {
-    GetAllRaids: function (token) {
-      let mainThis = this;
-      axios({
-        method: "get",
-        url: "http://192.168.1.100:8000/raid",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": "Token " + token
-        }
-      }).then(function (response) {
-        console.log(response.data);
-        mainThis.raids = response.data;
-      })
+    UpdateRaidData: function () {
+      store.dispatch("GetAllRaids");
+      store.dispatch("GetCurrentRaid");
+    },
+    UpdateMemberData: function () {
+      store.dispatch("GetUsers");
+    },
+    UpdateUserData: function () {
+      store.dispatch("GetCurrentUserByToken");
     }
   },
-  created: function () {
-    this.GetAllRaids(this.token)
-  }
 }
 
 </script>

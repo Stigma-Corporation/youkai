@@ -28,5 +28,11 @@ export default new Router({
       name: 'profile-settings',
       component: () => import('./views/ProfileSettings.vue')
     },
+    {
+      path: '/raid/:id',
+      name: 'raid',
+      component: () => import('./views/Raids.vue'),
+      props: true
+    },
   ]
 })

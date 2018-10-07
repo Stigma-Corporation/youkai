@@ -1,12 +1,8 @@
 <template>
-  <div class="box is-centered">
-    <figure class="image is-32x32">
-      <img v-bind:src="createSrc" alt="test">
-    </figure>
-    <!--<figure class="image is-16x16">-->
-      <!--<img src="../assets/classes/Assassin.png" alt="test2">-->
-    <!--</figure>-->
-  </div>
+  <img v-bind:src="createSrc" alt="test">
+  <!--<figure class="image is-16x16">-->
+    <!--<img src="../assets/classes/Assassin.png" alt="test2">-->
+  <!--</figure>-->
 </template>
 
 <script>

@@ -46,73 +46,74 @@
 import axios from "axios";
 import store from "../store";
 
-  export default {
-    name: "LoginForm",
-    data: function () {
-      return {
-        "username": "user-",
-        "usernameErrors": "",
-        "usernameBackErrors": "",
-        "password": "",
-        "passwordErrors": "",
-        "passwordBackErrors": "",
-        "notValid": true
-      }
+export default {
+  name: "LoginForm",
+  data: function () {
+    return {
+      "username": "user-0",
+      "usernameErrors": "",
+      "usernameBackErrors": "",
+      "password": "111",
+      "passwordErrors": "",
+      "passwordBackErrors": "",
+      "notValid": true
+    }
+  },
+  methods:{
+    GetToken: function (username, password) {
+      let mainThis = this;
+      mainThis.usernameBackErrors = "";
+      mainThis.passwordBackErrors = "";
+      axios({
+        method: "post",
+        url: "http://192.168.1.100:8000/account/login/",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        data: {
+          "username": username,
+          "password": password
+        }
+      }).then(function (response) {
+        if (response.data.token){
+          mainThis.username = "user-";
+          mainThis.password = "";
+          store.commit("updateToken", response.data.token);
+          store.commit("updateLoginModal");
+          store.dispatch("GetAllRaids");
+          store.dispatch("CheckAdminStatus");
+        }
+        else {
+          // console.log(response.data.message);
+          if (response.data.message === "user doesn't exists") {
+            mainThis.usernameBackErrors = response.data.message;
+          }
+          else if (response.data.message === "invalid password") {
+            mainThis.passwordBackErrors = response.data.message;
+          }
+        }
+      })
     },
-    methods:{
-      GetToken: function (username, password) {
-        let mainThis = this;
-        mainThis.usernameBackErrors = "";
-        mainThis.passwordBackErrors = "";
-        axios({
-          method: "post",
-          url: "http://192.168.1.100:8000/account/login",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          data: {
-            "username": username,
-            "password": password
-          }
-        }).then(function (response) {
-          console.log(response.data);
-          if (response.data.token){
-            mainThis.username = "user-";
-            mainThis.password = "";
-            store.commit("updateToken", response.data.token);
-            store.commit("updateLoginModal")
-          }
-          else {
-            // console.log(response.data.message);
-            if (response.data.message === "user doesn't exists") {
-              mainThis.usernameBackErrors = response.data.message;
-            }
-            else if (response.data.message === "invalid password") {
-              mainThis.passwordBackErrors = response.data.message;
-            }
-          }
-        })
-      },
-      ValidateForm: function () {
-        let mainThis = this;
-        mainThis.usernameBackErrors = "";
-        mainThis.passwordBackErrors = "";
-        if (mainThis.username.length < 6){
-          mainThis.usernameErrors = "Имя пользователя должно быть не менее 6 символов!"
-        }
-        else {
-          mainThis.usernameErrors = ""
-        }
-        if (mainThis.password.length === 4 ){
-          mainThis.passwordErrors = ""
-        }
-        else {
-          mainThis.passwordErrors = "Пароль должен состоять из 4 символов!"
-        }
-        mainThis.notValid = !(!mainThis.usernameErrors && !mainThis.passwordErrors);
+    ValidateForm: function () {
+      let mainThis = this;
+      mainThis.usernameBackErrors = "";
+      mainThis.passwordBackErrors = "";
+      if (mainThis.username.length < 6){
+        mainThis.usernameErrors = "Имя пользователя должно быть не менее 6 символов!"
       }
+      else {
+        mainThis.usernameErrors = ""
+      }
+      if (mainThis.password.length === 4 ){
+        mainThis.passwordErrors = ""
+      }
+      else {
+        mainThis.passwordErrors = "Пароль должен состоять из 4 символов!"
+      }
+      mainThis.notValid = !(!mainThis.usernameErrors && !mainThis.passwordErrors);
     }
   }
+}
 </script>
 
 <style scoped>

@@ -1,9 +1,5 @@
 <template>
-  <div class="box is-centered">
-    <figure class="image is-32x32">
-      <img v-bind:src="createSrc" alt="test">
-    </figure>
-  </div>
+  <img v-bind:src="createSrc" alt="test">
 </template>
 
 <script>

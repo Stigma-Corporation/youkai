@@ -46,7 +46,11 @@
                               </div>
                             </div>
                             <div class="column">
-                              <ImageClasses v-bind:class-number="currentUser['class']"></ImageClasses>
+                              <div class="box is-centered">
+                                <figure class="image is-32x32">
+                                  <ImageClasses v-bind:class-number="currentUser['class']"></ImageClasses>
+                                </figure>
+                              </div>
                             </div>
                           </div>
                         </div>
@@ -66,7 +70,11 @@
                               </div>
                             </div>
                             <div class="column">
-                              <ImageElements v-bind:element-number="currentUser['equipment']['element']"></ImageElements>
+                              <div class="box is-centered">
+                                <figure class="image is-32x32">
+                                  <ImageElements v-bind:element-number="currentUser['equipment']['element']"></ImageElements>
+                                </figure>
+                              </div>
                             </div>
                           </div>
                         </div>
@@ -273,25 +281,11 @@ export default {
     },
   },
   methods:{
-    GetUserByToken: function (token) {
-      let mainThis = this;
-      mainThis.userUpdatedMessage = "";
-      axios({
-        method: "get",
-        url: "http://192.168.1.100:8000/account/user",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": "Token " + token
-        }
-      }).then(function (response) {
-        mainThis.currentUser = response.data;
-      })
-    },
     UpdateUserByToken: function (token) {
       let mainThis = this;
       axios({
         method: "put",
-        url: "http://192.168.1.100:8000/account/user",
+        url: "http://192.168.1.100:8000/account/user/",
         headers: {
           "Content-Type": "application/json",
           "Authorization": "Token " + token
@@ -309,7 +303,7 @@ export default {
     }
   },
   created: function () {
-    this.GetUserByToken(this.token)
+    store.dispatch("GetCurrentUserByToken")
   }
 }
 </script>
