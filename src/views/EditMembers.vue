@@ -29,31 +29,38 @@
                               {{user['nickname']}}
                             </div>
                             <div class="column">
-                              <div class="title">
-                                <template v-if="user['role'] === 'admin'">
-                                  <span class="tag is-danger">
-                                    {{user['role']}}
-                                  </span>
-                                </template>
-                                <template v-else-if="user['role'] === 'staff'">
-                                  <span class="tag is-warning">
-                                    {{user['role']}}
-                                  </span>
-                                </template>
-                                <template v-else-if="user['role'] === 'member'">
-                                  <span class="tag is-success">
-                                    {{user['role']}}
-                                  </span>
-                                </template>
-                                <template v-else>
-                                  <span class="tag is-info">
-                                    {{user['role']}}
-                                  </span>
-                                </template>
-                              </div>
+                              <template v-if="user['role'] === 'admin'">
+                                <span class="tag is-danger">
+                                  {{user['role']}}
+                                </span>
+                              </template>
+                              <template v-else-if="user['role'] === 'staff'">
+                                <span class="tag is-warning">
+                                  {{user['role']}}
+                                </span>
+                              </template>
+                              <template v-else-if="user['role'] === 'member'">
+                                <span class="tag is-success">
+                                  {{user['role']}}
+                                </span>
+                              </template>
+                              <template v-else>
+                                <span class="tag is-info">
+                                  {{user['role']}}
+                                </span>
+                              </template>
                             </div>
                             <div class="column">
-                              {{user['status']}}
+                              <template v-if="user['status'] === 'inactive'">
+                                <span class="tag is-danger">
+                                  {{user['status']}}
+                                </span>
+                              </template>
+                              <template v-else>
+                                <span class="tag is-success">
+                                  {{user['status']}}
+                                </span>
+                              </template>
                             </div>
                           </div>
                         </div>
