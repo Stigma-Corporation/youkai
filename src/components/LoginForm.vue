@@ -34,7 +34,8 @@
 
     <div class="field is-grouped is-grouped-centered">
       <div class="control">
-        <button class="button is-success is-rounded" v-bind:disabled="notValid" v-on:click="GetToken(username, password)">
+        <button class="button is-success is-rounded" v-bind:disabled="notValid"
+                v-on:click="GetToken(username, password)" v-on:keyup.enter="GetToken(username, password)">
           Войти
         </button>
       </div>

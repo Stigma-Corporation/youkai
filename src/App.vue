@@ -6,7 +6,8 @@
         <div class="modal-content">
           <LoginForm></LoginForm>
         </div>
-        <button class="modal-close is-large" aria-label="close" v-on:click="LoginModal=!LoginModal"></button>
+        <button class="modal-close is-large" aria-label="close" v-on:click="LoginModal=!LoginModal"
+                v-on:keyup.esc="LoginModal=!LoginModal"></button>
       </div>
 
       <nav class="navbar" role="navigation" aria-label="main navigation">
