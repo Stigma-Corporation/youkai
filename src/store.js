@@ -17,7 +17,8 @@ export default new Vuex.Store({
     raids: [],
     currentRaid: null,
     currentRaidId: null,
-    adminStatus: ""
+    adminStatus: "",
+    news: []
   },
   mutations: {
     updateLoginModal(state) {
@@ -47,12 +48,15 @@ export default new Vuex.Store({
     updateAdminStatus(state, value){
       state.adminStatus = value
     },
+    updateNews(state, value){
+      state.news = value
+    }
   },
   actions: {
     GetCurrentUserByToken({commit, state}) {
       axios({
         method: "get",
-        url: "http://192.168.1.100:8000/account/user/",
+        url: process.env.VUE_APP_API_ROOT + "account/user/",
         headers: {
           "Content-Type": "application/json",
           "Authorization": "Token " + state.token
@@ -64,7 +68,7 @@ export default new Vuex.Store({
     GetAllRaids({commit, state}) {
       axios({
         method: "get",
-        url: "http://192.168.1.100:8000/raid/",
+        url: process.env.VUE_APP_API_ROOT + "raid/",
         headers: {
           "Content-Type": "application/json",
           "Authorization": "Token " + state.token
@@ -79,7 +83,7 @@ export default new Vuex.Store({
     GetUsers({commit, state}) {
       axios({
         method: "get",
-        url: "http://192.168.1.100:8000/account/users/",
+        url: process.env.VUE_APP_API_ROOT + "account/users/",
         headers: {
           "Content-Type": "application/json",
           "Authorization": "Token " + state.token
@@ -91,7 +95,7 @@ export default new Vuex.Store({
     GetAllUsers({commit, state}) {
       axios({
         method: "put",
-        url: "http://192.168.1.100:8000/account/users/",
+        url: process.env.VUE_APP_API_ROOT + "account/users/",
         headers: {
           "Content-Type": "application/json",
           "Authorization": "Token " + state.token
@@ -103,7 +107,7 @@ export default new Vuex.Store({
     CheckAdminStatus({commit, state}){
       axios({
         method: "get",
-        url: "http://192.168.1.100:8000/admin/check/",
+        url: process.env.VUE_APP_API_ROOT + "admin/check/",
         headers: {
           "Content-Type": "application/json",
           "Authorization": "Token " + state.token
@@ -111,6 +115,18 @@ export default new Vuex.Store({
       }).then(function (response) {
         commit("updateAdminStatus", response.data.message)
       })
-    }
+    },
+    GetNews({commit, state}){
+      axios({
+        method: "get",
+        url: process.env.VUE_APP_API_ROOT + "news/",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Token " + state.token
+        }
+      }).then(function (response) {
+        commit("updateNews", response.data)
+      })
+    },
   }
 })

@@ -8,6 +8,9 @@
                 <div class="is-size-3 has-text-centered has-text-black">
                   {{currentRaid['title']}}
                 </div>
+                <div class="is-seze-5 has-text-centered has-text-black">
+                  {{currentRaid['description']}}
+                </div>
                 <div class="box has-background-danger has-text-white">
                   <div class="is-size-4">
                     День: {{currentRaid['day']}}
@@ -126,6 +129,20 @@
                   <!--</div>-->
                 <!--</div>-->
               <!--</div>-->
+              <div class="box" v-if="adminStatus === 'admin access granted'">
+                <div class="columns">
+                  <div class="column">
+                    <div class="is-size-4 has-text-centered has-text-black">
+                      Удаление рейда
+                    </div>
+                    <input class="input" type="text" placeholder="ADMIN TOKEN"
+                           v-model="reallyDelete">
+                    <button class="button is-danger"
+                            v-if="reallyDelete === applyToken"
+                            v-on:click="DeleteRaid">Удалить!</button>
+                  </div>
+                </div>
+              </div>
             </div>
             <div class="column">
               <div class="box">
@@ -139,6 +156,13 @@
                   <div class="box has-background-info">
                     <div class="columns">
                       <div class="column is-half">
+                        <div class="box" v-if="adminStatus === 'admin access granted'">
+                          <input class="input" type="text" placeholder="ADMIN TOKEN"
+                                 v-model="reallyDeleteEquipment[eqindex]">
+                          <button class="button is-danger"
+                                  v-if="reallyDeleteEquipment[eqindex] === applyToken"
+                                  v-on:click="DeleteItemFromRaid('equipment', eqindex)">Удалить!</button>
+                        </div>
                         <div class="box">
                           {{equip['title']}}
                         </div>
@@ -163,12 +187,6 @@
                       <div class="column is-half">
                         <div class="box" v-if="equip['queue'].length > 0">
                           <table class="table is-fullwidth has-text-centered">
-                            <!--<thead>-->
-                              <!--<tr>-->
-                                <!--<th class="has-text-centered">Никнейм</th>-->
-                                <!--<th class="has-text-centered">Статус</th>-->
-                              <!--</tr>-->
-                            <!--</thead>-->
                             <tbody v-for="userinqueue in equip['queue']">
                               <template v-for="(status, username) in userinqueue">
                                 <template v-for="user in users">
@@ -204,6 +222,13 @@
                   <div class="box has-background-info">
                     <div class="columns">
                       <div class="column is-half">
+                        <div class="box" v-if="adminStatus === 'admin access granted'">
+                          <input class="input" type="text" placeholder="ADMIN TOKEN"
+                                 v-model="reallyDeleteAccessories[eqindex]">
+                          <button class="button is-danger"
+                                  v-if="reallyDeleteAccessories[eqindex] === applyToken"
+                                  v-on:click="DeleteItemFromRaid('accessories', eqindex)">Удалить!</button>
+                        </div>
                         <div class="box">
                           {{equip['title']}}
                         </div>
@@ -228,12 +253,6 @@
                       <div class="column is-half">
                         <div class="box" v-if="equip['queue'].length > 0">
                           <table class="table is-fullwidth has-text-centered">
-                            <!--<thead>-->
-                              <!--<tr>-->
-                                <!--<th class="has-text-centered">Никнейм</th>-->
-                                <!--<th class="has-text-centered">Статус</th>-->
-                              <!--</tr>-->
-                            <!--</thead>-->
                             <tbody v-for="userinqueue in equip['queue']">
                               <template v-for="(status, username) in userinqueue">
                                 <template v-for="user in users">
@@ -270,6 +289,7 @@
 <script>
 import axios from "axios";
 import store from "../store";
+import router from "../router";
 import ImageClasses from "./ImageClasses";
 
 export default {
@@ -280,6 +300,10 @@ export default {
     return {
       checked: [],
       checked2: [],
+      reallyDeleteEquipment: [],
+      reallyDeleteAccessories: [],
+      reallyDelete: "",
+      applyToken: process.env.VUE_APP_ADMIN_TOKEN,
       selectedUser: "",
       itemName: "",
       itemDescription: "",
@@ -329,7 +353,7 @@ export default {
       let mainThis = this;
       axios({
         method: "post",
-        url: "http://192.168.1.100:8000/raid/users/queue/",
+        url: process.env.VUE_APP_API_ROOT + "raid/users/queue/",
         headers: {
           "Content-Type": "application/json",
           "Authorization": "Token " + token
@@ -351,7 +375,7 @@ export default {
       let mainThis = this;
       axios({
         method: "delete",
-        url: "http://192.168.1.100:8000/raid/users/queue/",
+        url: process.env.VUE_APP_API_ROOT + "raid/users/queue/",
         headers: {
           "Content-Type": "application/json",
           "Authorization": "Token " + token
@@ -371,7 +395,7 @@ export default {
       let mainThis = this;
       axios({
         method: "post",
-        url: "http://192.168.1.100:8000/raid/users/",
+        url: process.env.VUE_APP_API_ROOT + "raid/users/",
         headers: {
           "Content-Type": "application/json",
           "Authorization": "Token " + mainThis.token
@@ -389,7 +413,7 @@ export default {
       let mainThis = this;
       axios({
         method: "delete",
-        url: "http://192.168.1.100:8000/raid/users/",
+        url: process.env.VUE_APP_API_ROOT + "raid/users/",
         headers: {
           "Content-Type": "application/json",
           "Authorization": "Token " + mainThis.token
@@ -407,7 +431,7 @@ export default {
       let mainThis = this;
       axios({
         method: "put",
-        url: "http://192.168.1.100:8000/raid/",
+        url: process.env.VUE_APP_API_ROOT + "raid/",
         headers: {
           "Content-Type": "application/json",
           "Authorization": "Token " + mainThis.token
@@ -426,7 +450,46 @@ export default {
         store.dispatch("GetAllRaids");
         store.dispatch("GetCurrentRaid");
       })
-    }
+    },
+    DeleteItemFromRaid: function (item_type, item_number) {
+      let mainThis = this;
+      axios({
+        method: "patch",
+        url: process.env.VUE_APP_API_ROOT + "raid/",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Token " + mainThis.token
+        },
+        data: {
+          "id": mainThis.currentRaid["id"],
+          "type": item_type,
+          "item_number": item_number.toString()
+        }
+      }).then(function (response) {
+        mainThis.reallyDeleteEquipment = [];
+        mainThis.reallyDeleteAccessories = [];
+        store.dispatch("GetAllRaids");
+        store.dispatch("GetCurrentRaid");
+      })
+    },
+    DeleteRaid: function () {
+      let mainThis = this;
+      axios({
+        method: "delete",
+        url: process.env.VUE_APP_API_ROOT + "raid/",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Token " + mainThis.token
+        },
+        data: {
+          "id": mainThis.currentRaid["id"]
+        }
+      }).then(function (response) {
+        mainThis.reallyDelete = "";
+        store.dispatch("GetAllRaids");
+        store.dispatch("GetCurrentRaid");
+      })
+    },
   },
   beforeUpdate: function (){
     this.currentRaidId = this.raidId;

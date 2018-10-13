@@ -6,13 +6,12 @@
         <div class="modal-content">
           <LoginForm></LoginForm>
         </div>
-        <button class="modal-close is-large" aria-label="close" v-on:click="LoginModal=!LoginModal"
-                v-on:keyup.esc="LoginModal=!LoginModal"></button>
+        <button class="modal-close is-large" aria-label="close" v-on:click="LoginModal=!LoginModal"></button>
       </div>
 
       <nav class="navbar" role="navigation" aria-label="main navigation">
         <div class="navbar-brand">
-          <router-link to="/" class="navbar-item">
+          <router-link to="/" class="navbar-item" v-on:click.native="UpdateNewsRaidData">
             <NavbarLogo></NavbarLogo>
           </router-link>
 
@@ -33,7 +32,9 @@
                 </a>
               </div>
             </div>
-            <router-link to="/" class="navbar-item">Главная</router-link>
+            <router-link to="/" class="navbar-item" v-on:click.native="UpdateNewsRaidData">
+              Главная
+            </router-link>
             <div class="navbar-item has-dropdown is-hoverable" v-if="token">
               <a class="navbar-link">
                 Профиль
@@ -43,7 +44,7 @@
                 <router-link to="/profile/equipment" class="navbar-item"
                              v-on:click.native="UpdateUserData" v-if="token">Профиль</router-link>
                 <router-link to="/profile/settings" class="navbar-item"
-                             v-on:click.native="UpdateRaidData" v-if="token">Настройки</router-link>
+                             v-on:click.native="UpdateNewsRaidData" v-if="token">Настройки</router-link>
               </div>
             </div>
 
@@ -57,11 +58,23 @@
 
               <div class="navbar-dropdown">
                 <div v-for="(raid, index) in raids">
-                  <router-link v-on:click.native="UpdateRaidData" v-bind:to="{name: 'raid', params: {id: index}}" class="navbar-item">
-                    {{raid["title"]}}
-                  </router-link>
-                  <hr class="navbar-divider">
+                  <template v-if="adminStatus === 'admin access granted'">
+                    <router-link v-on:click.native="UpdateNewsRaidData" v-bind:to="{name: 'raid', params: {id: index}}" class="navbar-item">
+                      {{raid["title"]}}
+                    </router-link>
+                    <hr class="navbar-divider">
+                  </template>
+                  <template v-else-if="raid['users'].includes(currentUser['username'])">
+                    <router-link v-on:click.native="UpdateNewsRaidData" v-bind:to="{name: 'raid', params: {id: index}}" class="navbar-item">
+                      {{raid["title"]}}
+                    </router-link>
+                    <hr class="navbar-divider">
+                  </template>
+                  <template v-else></template>
                 </div>
+                <router-link to="/createraid" class="navbar-item" v-if="adminStatus === 'admin access granted'">
+                  Добавить | Изменить
+                </router-link>
               </div>
             </div>
 
@@ -69,13 +82,21 @@
                          v-if="adminStatus === 'admin access granted'">
               Ред. состав
             </router-link>
+            <template v-if="adminStatus === 'admin access granted' || adminStatus === 'staff access granted'">
+              <router-link to="/createnews" class="navbar-item">
+                Создать новость
+              </router-link>
+            </template>
+            <template v-else></template>
           </div>
         </div>
       </nav>
       <!--<router-link to="/">Home</router-link>-->
       <!--<router-link to="/members">Members</router-link>-->
     </div>
-    <router-view/>
+    <transition name="test" mode="out-in">
+      <router-view/>
+    </transition>
   </div>
 </template>
 
@@ -150,11 +171,17 @@ export default {
         store.commit("updateAdminStatus", value)
       }
     },
+    currentUser: {
+      get() {
+        return store.state.currentUser;
+      }
+    }
   },
   methods : {
-    UpdateRaidData: function () {
+    UpdateNewsRaidData: function () {
       store.dispatch("GetAllRaids");
       store.dispatch("GetCurrentRaid");
+      store.dispatch("GetNews");
     },
     UpdateMemberData: function () {
       store.dispatch("GetUsers");
@@ -171,6 +198,18 @@ export default {
 
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 @import "assets/normalize.css";
+.test-enter-active,
+.test-leave-active {
+  transition-duration: 0.5s;
+  transition-property: opacity;
+  transition-timing-function: ease;
+}
+
+.test-enter,
+.test-leave-active {
+  opacity: 0
+}
+
 </style>

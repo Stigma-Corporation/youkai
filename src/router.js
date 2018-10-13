@@ -7,6 +7,7 @@ Vue.use(Router);
 export default new Router({
   mode: 'history',
   base: process.env.BASE_URL,
+  linkActiveClass: "is-active",
   routes: [
     {
       path: '/',
@@ -39,5 +40,16 @@ export default new Router({
       component: () => import('./views/Raids.vue'),
       props: true
     },
+    {
+      path: '/createraid',
+      name: 'createraid',
+      component: () => import('./views/CreateRaid.vue'),
+      props: true
+    },
+    {
+      path: '/createnews',
+      name: 'createnews',
+      component: () => import('./views/CreateNews.vue')
+    }
   ]
 })

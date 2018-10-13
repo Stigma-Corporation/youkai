@@ -285,7 +285,7 @@ export default {
       let mainThis = this;
       axios({
         method: "put",
-        url: "http://192.168.1.100:8000/account/user/",
+        url: process.env.VUE_APP_API_ROOT + "account/user/",
         headers: {
           "Content-Type": "application/json",
           "Authorization": "Token " + token

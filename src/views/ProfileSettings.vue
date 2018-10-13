@@ -105,7 +105,7 @@ export default {
       mainThis.userUpdatedMessage = "";
       axios({
         method: "get",
-        url: "http://192.168.1.100:8000/account/user",
+        url: process.env.VUE_APP_API_ROOT + "account/user",
         headers: {
           "Content-Type": "application/json",
           "Authorization": "Token " + token
@@ -118,7 +118,7 @@ export default {
       let mainThis = this;
       axios({
         method: "patch",
-        url: "http://192.168.1.100:8000/account/user",
+        url: process.env.VUE_APP_API_ROOT + "account/user",
         headers: {
           "Content-Type": "application/json",
           "Authorization": "Token " + token

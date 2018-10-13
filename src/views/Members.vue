@@ -50,7 +50,9 @@
                       <div v-else-if="key['role'] === 'staff'">
                         <abbr title="Ветеран"><i class="fas fa-crown staff-color"></i></abbr>
                       </div>
-                      <div v-else><abbr title="Глава"><i class="fas fa-crown admin-color"></i></abbr></div>
+                      <div v-else-if="key['role'] === 'admin'">
+                        <abbr title="Admin"><i class="fas fa-crown admin-color"></i></abbr>
+                      </div>
                     </div>
                   </td>
                   <td class="has-text-centered">{{key["nickname"]}}</td>
@@ -158,7 +160,7 @@ table th{
   color: #ff9933;
 }
 .admin-color{
-  color: #ff3300;
+  color: black;
 }
 .has-bg-img { background: url('../assets/background.jpg')center center; background-size:cover; }
 </style>

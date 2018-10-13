@@ -35,7 +35,7 @@
     <div class="field is-grouped is-grouped-centered">
       <div class="control">
         <button class="button is-success is-rounded" v-bind:disabled="notValid"
-                v-on:click="GetToken(username, password)" v-on:keyup.enter="GetToken(username, password)">
+                v-on:click="GetToken(username, password)">
           Войти
         </button>
       </div>
@@ -51,10 +51,10 @@ export default {
   name: "LoginForm",
   data: function () {
     return {
-      "username": "user-0",
+      "username": "user-",
       "usernameErrors": "",
       "usernameBackErrors": "",
-      "password": "111",
+      "password": "",
       "passwordErrors": "",
       "passwordBackErrors": "",
       "notValid": true
@@ -67,7 +67,7 @@ export default {
       mainThis.passwordBackErrors = "";
       axios({
         method: "post",
-        url: "http://192.168.1.100:8000/account/login/",
+        url: process.env.VUE_APP_API_ROOT + "account/login/",
         headers: {
           "Content-Type": "application/json"
         },
