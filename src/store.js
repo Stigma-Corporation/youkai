@@ -6,7 +6,7 @@ import createPersistedState from 'vuex-persistedstate';
 Vue.use(Vuex);
 
 export default new Vuex.Store({
-  plugins: [createPersistedState()],
+  plugins: [createPersistedState({ storage: window.sessionStorage})],
   state: {
     LoginModal: false,
     token: "",
@@ -18,7 +18,8 @@ export default new Vuex.Store({
     currentRaid: null,
     currentRaidId: null,
     adminStatus: "",
-    news: []
+    news: [],
+    Loader: false
   },
   mutations: {
     updateLoginModal(state) {
@@ -50,9 +51,25 @@ export default new Vuex.Store({
     },
     updateNews(state, value){
       state.news = value
+    },
+    updateLoader(state, value){
+      state.Loader = value
     }
   },
   actions: {
+    PingAPI({commit, state}) {
+      axios({
+        method: "get",
+        url: process.env.VUE_APP_API_ROOT + "ping/",
+      }).then(function (response) {
+        if (response.data === true) {
+          commit("updateLoader", response.data)
+        } else {
+          commit("updateLoader", false)
+        }
+
+      })
+    },
     GetCurrentUserByToken({commit, state}) {
       axios({
         method: "get",

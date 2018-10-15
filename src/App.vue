@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <Loader></Loader>
     <div class="container is-fluid">
       <div class="modal" v-bind:class="{ 'is-active': LoginModal }">
         <div class="modal-background"></div>
@@ -142,6 +143,14 @@ export default {
     }
   },
   computed: {
+    LoaderBool: {
+      get() {
+        return store.state.Loader;
+      },
+      set() {
+        store.commit('updateLoader');
+      }
+    },
     LoginModal: {
       get() {
         return store.state.LoginModal;
@@ -189,11 +198,50 @@ export default {
     UpdateUserData: function () {
       store.dispatch("GetCurrentUserByToken");
     },
+    UpdateLoaderData: function() {
+      store.dispatch("PingAPI");
+    },
     Logout: function () {
       this.token = '';
       this.adminStatus = '';
+    },
+    toggleBodyClass: function () {
+      let mainThis = this;
+      const el = document.body;
+      if (mainThis.LoaderBool) {
+        mainThis.UpdateNewsRaidData();
+        el.classList.add("loaded");
+      } else {
+        el.classList.remove("loaded");
+      }
+
     }
   },
+  // created: function () {
+  //   setTimeout(this.toggleBodyClass('addClass', "loaded"), 3000);
+  //   // $('body').addClass('loaded');
+  //   // $('h1').css('color','#222222');
+  // },
+  // mounted: function () {
+  //   this.$nextTick(function () {
+  //     window.setInterval(() => {
+  //       this.toggleBodyClass();
+  //     },3000);
+  //   })
+  // },
+  mounted: function () {
+    let mainThis = this;
+    let callCount = 1;
+    let repeater = setInterval(function () {
+      if (callCount < 3) {
+        mainThis.UpdateLoaderData();
+        mainThis.toggleBodyClass();
+        callCount += 1;
+      } else {
+        clearInterval(repeater);
+      }
+    }, 3000);
+  }
 }
 
 </script>
