@@ -83,6 +83,7 @@ export default {
           store.commit("updateLoginModal");
           store.dispatch("GetAllRaids");
           store.dispatch("CheckAdminStatus");
+          store.dispatch("GetCurrentUserByToken");
         }
         else {
           // console.log(response.data.message);

@@ -65,11 +65,15 @@
                     </router-link>
                     <hr class="navbar-divider">
                   </template>
-                  <template v-else-if="raid['users'].includes(currentUser['username'])">
-                    <router-link v-on:click.native="UpdateNewsRaidData" v-bind:to="{name: 'raid', params: {id: index}}" class="navbar-item">
-                      {{raid["title"]}}
-                    </router-link>
-                    <hr class="navbar-divider">
+                  <template v-if="raid['users']">
+                    <template v-if="currentUser">
+                      <template v-if="raid['users'].includes(currentUser['username'])">
+                        <router-link v-on:click.native="UpdateNewsRaidData" v-bind:to="{name: 'raid', params: {id: index}}" class="navbar-item">
+                          {{raid["title"]}}
+                        </router-link>
+                        <hr class="navbar-divider">
+                      </template>
+                    </template>
                   </template>
                   <template v-else></template>
                 </div>
@@ -191,6 +195,7 @@ export default {
       store.dispatch("GetAllRaids");
       store.dispatch("GetCurrentRaid");
       store.dispatch("GetNews");
+      store.dispatch("GetCurrentUserByToken");
     },
     UpdateMemberData: function () {
       store.dispatch("GetUsers");
@@ -218,9 +223,6 @@ export default {
     }
   },
   // created: function () {
-  //   setTimeout(this.toggleBodyClass('addClass', "loaded"), 3000);
-  //   // $('body').addClass('loaded');
-  //   // $('h1').css('color','#222222');
   // },
   // mounted: function () {
   //   this.$nextTick(function () {
