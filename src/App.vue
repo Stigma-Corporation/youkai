@@ -65,16 +65,12 @@
                     </router-link>
                     <hr class="navbar-divider">
                   </template>
-                  <template v-if="raid['users']">
-                    <template v-if="currentUser">
-                      <template v-if="raid['users'].includes(currentUser['username'])">
-                        <router-link v-on:click.native="UpdateNewsRaidData" v-bind:to="{name: 'raid', params: {id: index}}" class="navbar-item">
-                          {{raid["title"]}}
-                        </router-link>
-                        <hr class="navbar-divider">
-                      </template>
+                    <template v-if="raid['users'].includes(currentUser['username'])">
+                      <router-link v-on:click.native="UpdateNewsRaidData" v-bind:to="{name: 'raid', params: {id: index}}" class="navbar-item">
+                        {{raid["title"]}}
+                      </router-link>
+                      <hr class="navbar-divider">
                     </template>
-                  </template>
                   <template v-else></template>
                 </div>
                 <router-link to="/createraid" class="navbar-item" v-if="adminStatus === 'admin access granted'">
