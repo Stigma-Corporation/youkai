@@ -1,6 +1,6 @@
 <template>
   <keep-alive>
-    <img v-bind:src="imageSrc" alt="Не возможно загрузить картинку">
+    <img v-bind:src="imageSrc" alt="Невозможно загрузить картинку">
   </keep-alive>
 </template>
 
