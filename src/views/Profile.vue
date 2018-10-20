@@ -130,6 +130,15 @@
                           </div>
                         </div>
                       </div>
+
+                      <div class="column is-three-quarters">
+                        <div class="field">
+                          <label class="label">Браслет</label>
+                          <div class="control">
+                            <input class="input" type="text" v-model="currentUser['equipment']['bracelet']">
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </div>
 

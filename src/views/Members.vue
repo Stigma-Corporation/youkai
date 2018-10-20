@@ -6,7 +6,8 @@
         <div class="bg-img"></div>
         <div class="container is-fluid">
           <div class="columns">
-            <table v-if="token" class="table is-bordered is-narrow is-hoverable is-fullwidth is-size-6 has-text-centered">
+            <div class="box horizontal-scroll">
+              <table v-if="token" class="table is-bordered is-narrow is-hoverable is-fullwidth is-size-6 has-text-centered">
               <thead class="has-background-info has-text-white has-text-centered">
                 <tr class="has-background-info has-text-white has-text-centered">
                   <template v-for="field in tableFields">
@@ -39,7 +40,7 @@
               </tfoot>
               <tbody class="has-text-centered">
                 <tr v-for="(key, index) in users">
-                  <td class="has-text-centered">{{index}}</td>
+                  <td class="has-text-centered">{{index+1}}</td>
                   <td class="has-text-centered">{{key["first_name"]}}
                     <div v-if="key['trainee']">
                       <abbr title="Неофит"><i class="fas fa-crown has-text-success"></i></abbr></div>
@@ -70,6 +71,7 @@
                   <td class="has-text-centered is-vertical-center">{{key["equipment"]["ring"]}}</td>
                   <td class="has-text-centered">{{key["equipment"]["belt"]}}</td>
                   <td class="has-text-centered">{{key["equipment"]["gloves"]}}</td>
+                  <td class="has-text-centered">{{key["equipment"]["bracelet"]}}</td>
                   <td class="has-text-centered">{{key["equipment"]["sphere"]}}</td>
                   <td class="has-text-centered">{{key["equipment"]["spirit"]}}</td>
                   <td class="has-text-centered">{{key["equipment"]["badge"]}}</td>
@@ -86,6 +88,7 @@
                 </tr>
               </tbody>
             </table>
+            </div>
           </div>
         </div>
       </div>
@@ -109,7 +112,7 @@ export default {
     return {
       tableFields: [
         "№", "Имя", "Ник", "Класс", "Оружие", "Триграммы", "Ожерелье", "Серьга", "Кольцо", "Пояс",
-        "Перчатки", "Сфера", "Дух", "Символ", "Душа", "Подвеска", "DPS", "Стихия"
+        "Перчатки", "Браслет", "Сфера", "Дух", "Символ", "Душа", "Подвеска", "DPS", "Стихия"
       ]
     }
   },
@@ -134,6 +137,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.horizontal-scroll {
+  overflow-x: scroll !important;
+  overflow-y: hidden !important;
+}
 table,
 td,
 th {
