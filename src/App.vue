@@ -65,7 +65,7 @@
                     </router-link>
                     <hr class="navbar-divider">
                   </template>
-                    <template v-if="raid['users'].includes(currentUser['username'])">
+                    <template v-else-if="raid['users'].includes(currentUser['username'])">
                       <router-link v-on:click.native="UpdateNewsRaidData" v-bind:to="{name: 'raid', params: {id: index}}" class="navbar-item">
                         {{raid["title"]}}
                       </router-link>
