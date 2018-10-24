@@ -7,6 +7,38 @@
             <div class="box">
               <div class="columns">
                 <div class="column is-6">
+                  <div class="box">
+                    <div class="title has-text-centered is-size-5">Календарь</div>
+                    <div class="columns">
+                      <template v-for="(day, day_index) in calendar">
+                        <div class="column is-size-7 has-text-centered">
+                          <div class="title has-text-centered is-size-6">{{dayMap[day_index+1]}}</div>
+                          <template v-for="event in day['events']">
+                            <div class="box is-marginless is-paddingless"
+                                 v-bind:class="{'has-background-link has-text-white': event['tag'] === '1',
+                                 'has-background-warning has-text-black': event['tag'] === '2',
+                                 'has-background-danger has-text-white': event['tag'] === '3'}">
+                              <!--<abbr v-bind:title="event['description']">{{event['brief']}}</abbr>-->
+                              <div class="tooltip is-tooltip-right"
+                                   v-bind:class="{'is-tooltip-link': event['tag'] === '1',
+                                   'is-tooltip-warning': event['tag'] === '2',
+                                   'is-tooltip-danger': event['tag'] === '3'}"
+                                   v-bind:data-tooltip="event['description']">
+                                {{event['brief']}}
+                              </div>
+                              <br>
+                              {{timeMap[event['start']]}}
+                            </div>
+                            <br>
+                          </template>
+                        </div>
+                        <template v-if="day_index === calendar.length - 1"></template>
+                        <template v-else>
+                          <div class="is-divider-vertical"></div>
+                        </template>
+                      </template>
+                    </div>
+                  </div>
                   <template v-for="article in news">
                     <article class="message" v-bind:class="tagsClasses[article['tags']]">
                       <div class="message-header">
@@ -74,8 +106,8 @@
                         и в этом же рейде есть новичок, и им нужны одинаковые вещи
                         формула изменяется на: ветеран < новичок > твин (хоть Дональд Трамп)
                       </li>
-                      <li>Не явка (без уважительной причины) на рейды их участников,
-                        будет наказываться в дальнейшем смещением в таблице (вплоть до исключения БШ)
+                      <li><strong>Не явка</strong> (без уважительной причины) на рейды их участников,
+                        будет наказываться в дальнейшем смещением в таблице (<strong>вплоть до исключения БШ</strong>)
                       </li>
                       <li>Новости БШ пишутся в Discord в канале News,а так же в группе в вконтакте (смотрите ссылки выше)</li>
                       <!--<li>Свод правил будет дорабатываться и редактироваться.</li>-->
@@ -109,7 +141,14 @@ export default {
         "1": "is-dark",
         "2": "is-warning",
         "3": "is-danger"
-      }
+      },
+      dayMap: {"1": "Пн", "2": "Вт", "3": "Ср", "4": "Чт", "5": "Пт", "6": "Сб", "7": "Вс"},
+      timeMap: {
+        "0": "00:00", "01:00": "1", "2": "02:00", "3": "03:00", "4": "04:00", "5": "05:00", "6": "06:00", "7": "07:00",
+        "8": "08:00", "9": "09:00", "10": "10:00", "11": "11:00", "12": "12:00", "13": "13:00", "14": "14:00",
+        "15": "15:00", "16": "16:00", "17": "17:00", "18": "18:00", "19": "19:00", "20": "20:00", "21": "21:00",
+        "22": "22:00", "23": "23:00", "24": "24:00",
+      },
     }
   },
   computed: {
@@ -128,10 +167,17 @@ export default {
         return store.state.news;
       }
     },
+    calendar: {
+      get() {
+        return store.state.calendar;
+      }
+    }
   },
 }
 </script>
 
 <style lang="scss">
+@import "~bulma-extensions/bulma-tooltip/dist/css/bulma-tooltip.min.css";
+@import "~bulma-extensions/bulma-divider/dist/css/bulma-divider.min.css";
 .has-bg-img { background: url('../assets/background6.png')center center; background-size:cover; }
 </style>

@@ -50,6 +50,11 @@ export default new Router({
       path: '/createnews',
       name: 'createnews',
       component: () => import('./views/CreateNews.vue')
+    },
+    {
+      path: "/editcalendar",
+      name: "editcalendar",
+      component: () => import('./views/EditCalendar.vue')
     }
   ]
 })

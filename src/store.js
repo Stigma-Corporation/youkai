@@ -19,6 +19,7 @@ export default new Vuex.Store({
     currentRaidId: null,
     adminStatus: "",
     news: [],
+    calendar: [],
     Loader: false
   },
   mutations: {
@@ -51,6 +52,9 @@ export default new Vuex.Store({
     },
     updateNews(state, value){
       state.news = value
+    },
+    updateCalendar(state, value){
+      state.calendar = value
     },
     updateLoader(state, value){
       state.Loader = value
@@ -137,13 +141,21 @@ export default new Vuex.Store({
       axios({
         method: "get",
         url: process.env.VUE_APP_API_ROOT + "news/",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": "Token " + state.token
-        }
+        // headers: {
+        //   "Content-Type": "application/json",
+        //   "Authorization": "Token " + state.token
+        // }
       }).then(function (response) {
         commit("updateNews", response.data)
       })
     },
+    GetCalendar({commit, state}){
+      axios({
+        method: "get",
+        url: process.env.VUE_APP_API_ROOT + "calendar/"
+      }).then(function (response) {
+        commit("updateCalendar", response.data)
+      })
+    }
   }
 })

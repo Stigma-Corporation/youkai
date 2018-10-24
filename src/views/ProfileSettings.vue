@@ -168,7 +168,7 @@ export default {
       mainThis.CheckForm()
     },
     CheckForm: function () {
-      let mainThis =this;
+      let mainThis = this;
       if (!mainThis.currentPasswordErrors && !mainThis.newPasswordErrors
         && !mainThis.newPasswordConfirmErrors &&!mainThis.passwordsIdentityError){
         mainThis.formInvalid = false

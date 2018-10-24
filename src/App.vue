@@ -89,6 +89,14 @@
               </router-link>
             </template>
             <template v-else></template>
+
+            <template v-if="adminStatus === 'admin access granted' || adminStatus === 'staff access granted'">
+              <router-link to="/editcalendar" class="navbar-item" v-on:click.native="UpdateCalendarData">
+                Календарь
+              </router-link>
+            </template>
+            <template v-else></template>
+
           </div>
         </div>
       </nav>
@@ -192,6 +200,10 @@ export default {
       store.dispatch("GetCurrentRaid");
       store.dispatch("GetNews");
       store.dispatch("GetCurrentUserByToken");
+      store.dispatch("GetCalendar");
+    },
+    UpdateCalendarData: function () {
+      store.dispatch("GetCalendar");
     },
     UpdateMemberData: function () {
       store.dispatch("GetUsers");
