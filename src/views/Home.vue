@@ -19,7 +19,7 @@
                                  'has-background-warning has-text-black': event['tag'] === '2',
                                  'has-background-danger has-text-white': event['tag'] === '3'}">
                               <!--<abbr v-bind:title="event['description']">{{event['brief']}}</abbr>-->
-                              <div class="tooltip is-tooltip-right"
+                              <div class="tooltip is-tooltip-right-desktop is-tooltip-bottom-mobile"
                                    v-bind:class="{'is-tooltip-link': event['tag'] === '1',
                                    'is-tooltip-warning': event['tag'] === '2',
                                    'is-tooltip-danger': event['tag'] === '3'}"
@@ -34,7 +34,7 @@
                         </div>
                         <template v-if="day_index === calendar.length - 1"></template>
                         <template v-else>
-                          <div class="is-divider-vertical"></div>
+                          <div class="is-divider-vertical no-padding"></div>
                         </template>
                       </template>
                     </div>
@@ -144,7 +144,7 @@ export default {
       },
       dayMap: {"1": "Пн", "2": "Вт", "3": "Ср", "4": "Чт", "5": "Пт", "6": "Сб", "7": "Вс"},
       timeMap: {
-        "0": "00:00", "01:00": "1", "2": "02:00", "3": "03:00", "4": "04:00", "5": "05:00", "6": "06:00", "7": "07:00",
+        "0": "00:00", "1": "01:00", "2": "02:00", "3": "03:00", "4": "04:00", "5": "05:00", "6": "06:00", "7": "07:00",
         "8": "08:00", "9": "09:00", "10": "10:00", "11": "11:00", "12": "12:00", "13": "13:00", "14": "14:00",
         "15": "15:00", "16": "16:00", "17": "17:00", "18": "18:00", "19": "19:00", "20": "20:00", "21": "21:00",
         "22": "22:00", "23": "23:00", "24": "24:00",
@@ -180,4 +180,5 @@ export default {
 @import "~bulma-extensions/bulma-tooltip/dist/css/bulma-tooltip.min.css";
 @import "~bulma-extensions/bulma-divider/dist/css/bulma-divider.min.css";
 .has-bg-img { background: url('../assets/background6.png')center center; background-size:cover; }
+.no-padding {padding: 0 !important;}
 </style>
