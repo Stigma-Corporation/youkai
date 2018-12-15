@@ -245,7 +245,7 @@ export default {
     let mainThis = this;
     let callCount = 0;
     let repeater = setInterval(function () {
-      if (callCount < 10) {
+      if (callCount < 30) {
         mainThis.UpdateLoaderData();
         mainThis.toggleBodyClass();
         callCount += 1;
