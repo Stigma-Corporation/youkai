@@ -318,5 +318,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.has-bg-img { background: url('../assets/background3.jpg')center center; background-size:cover; }
+.has-bg-img { background: url('../assets/background3.jpg') no-repeat center center fixed; background-size:cover; }
 </style>

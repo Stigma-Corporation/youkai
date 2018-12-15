@@ -29,7 +29,7 @@
                         <table class="table is-hoverable is-fullwidth">
                           <tbody>
                             <tr>
-                              <td class="has-text-left">
+                              <td style="width: 32px">
                                 <figure class="image is-32x32 has-text-centered">
                                   <ImageClasses v-bind:class-number="user['class']"></ImageClasses>
                                 </figure>
@@ -153,22 +153,22 @@
                 </div>
 
                 <div v-for="(equip, eqindex) in currentRaid['equipment']">
-                  <div class="box has-background-info">
+                  <div style="margin-bottom: 0" class="box has-background-info">
                     <div class="columns">
                       <div class="column is-half">
-                        <div class="box" v-if="adminStatus === 'admin access granted'">
+                        <div class="box is-marginless is-paddingless" v-if="adminStatus === 'admin access granted'">
                           <input class="input" type="text" placeholder="ADMIN TOKEN"
                                  v-model="reallyDeleteEquipment[eqindex]">
                           <button class="button is-danger"
                                   v-if="reallyDeleteEquipment[eqindex] === applyToken"
                                   v-on:click="DeleteItemFromRaid('equipment', eqindex)">Удалить!</button>
                         </div>
-                        <div class="box">
+                        <div style="margin: 0 0 10px 0" class="box tooltip is-tooltip-bottom is-tooltip-multiline" v-bind:data-tooltip="equip['description']">
                           {{equip['title']}}
                         </div>
-                        <div class="box">
-                          {{equip['description']}}
-                        </div>
+                        <!--<div class="box">-->
+                          <!--{{equip['description']}}-->
+                        <!--</div>-->
                         <div class="buttons">
                           <button class="button is-success" v-on:click="AddUserToQueue(token, eqindex, 'equipment')">
                             Записаться
@@ -186,7 +186,7 @@
                       </div>
                       <div class="column is-half">
                         <div class="box" v-if="equip['queue'].length > 0">
-                          <table class="table is-fullwidth has-text-centered">
+                          <table class="table is-hoverable is-fullwidth has-text-centered">
                             <tbody v-for="userinqueue in equip['queue']">
                               <template v-for="(status, username) in userinqueue">
                                 <template v-for="user in users">
@@ -219,22 +219,22 @@
                 </div>
 
                 <div v-for="(equip, eqindex) in currentRaid['accessories']">
-                  <div class="box has-background-info">
+                  <div style="margin-bottom: 0" class="box has-background-info">
                     <div class="columns">
                       <div class="column is-half">
-                        <div class="box" v-if="adminStatus === 'admin access granted'">
+                        <div class="box is-marginless is-paddingless" v-if="adminStatus === 'admin access granted'">
                           <input class="input" type="text" placeholder="ADMIN TOKEN"
                                  v-model="reallyDeleteAccessories[eqindex]">
                           <button class="button is-danger"
                                   v-if="reallyDeleteAccessories[eqindex] === applyToken"
                                   v-on:click="DeleteItemFromRaid('accessories', eqindex)">Удалить!</button>
                         </div>
-                        <div class="box">
+                        <div style="margin: 0 0 10px 0" class="box tooltip is-tooltip-bottom is-tooltip-multiline" v-bind:data-tooltip="equip['description']">
                           {{equip['title']}}
                         </div>
-                        <div class="box">
-                          {{equip['description']}}
-                        </div>
+                        <!--<div class="box">-->
+                          <!--{{equip['description']}}-->
+                        <!--</div>-->
                         <div class="buttons">
                           <button class="button is-success" v-on:click="AddUserToQueue(token, eqindex, 'accessories')">
                             Записаться
@@ -252,7 +252,7 @@
                       </div>
                       <div class="column is-half">
                         <div class="box" v-if="equip['queue'].length > 0">
-                          <table class="table is-fullwidth has-text-centered">
+                          <table class="table is-hoverable is-fullwidth has-text-centered">
                             <tbody v-for="userinqueue in equip['queue']">
                               <template v-for="(status, username) in userinqueue">
                                 <template v-for="user in users">
@@ -307,7 +307,8 @@ export default {
       selectedUser: "",
       itemName: "",
       itemDescription: "",
-      selectedItemType: ""
+      selectedItemType: "",
+
     }
   },
   computed: {

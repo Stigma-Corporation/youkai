@@ -72,7 +72,7 @@
                     </ul>
                     <p>Основные требования при вступлении</p>
                     <ol>
-                      <li>Основной персонаж, уровень <strong>55</strong>(<strong>12</strong>+) (возможны исключения)</li>
+                      <li>Основной персонаж, уровень <strong>55</strong>(<strong>16</strong>+) (возможны исключения)</li>
                       <li>Активность и адекватность</li>
                       <li>Иметь Discord (на рейдах обязательно общаться)</li>
                       <li>Стабильный онлайн и активное участие в деятельности боевой школы</li>
@@ -106,8 +106,11 @@
                         и в этом же рейде есть новичок, и им нужны одинаковые вещи
                         формула изменяется на: ветеран < новичок > твин (хоть Дональд Трамп)
                       </li>
-                      <li><strong>Не явка</strong> (без уважительной причины) на рейды их участников,
-                        будет наказываться в дальнейшем смещением в таблице (<strong>вплоть до исключения БШ</strong>)
+                      <li>
+                        <strong>Пропуск и неявка</strong> на рейды без уважительной причины будет караться
+                        исключением из рейда.
+                        <br>P.S 1-2 пропуска без уважительной причины
+                        <i>и без предупреждения людей состоящих в этом рейде</i> - исключение из рейда.
                       </li>
                       <li>Новости БШ пишутся в Discord в канале News,а так же в группе в вконтакте (смотрите ссылки выше)</li>
                       <!--<li>Свод правил будет дорабатываться и редактироваться.</li>-->
@@ -125,10 +128,9 @@
 
 <script>
 // @ is an alias to /src
-import ImageNews from "@/components/ImageNews.vue"
-import DatetimeCreated from "@/components/DatetimeCreated.vue"
+import ImageNews from "@/components/ImageNews.vue";
+import DatetimeCreated from "@/components/DatetimeCreated.vue";
 import store from "../store";
-
 
 export default {
   name: "home",
@@ -179,6 +181,7 @@ export default {
 <style lang="scss">
 @import "~bulma-extensions/bulma-tooltip/dist/css/bulma-tooltip.min.css";
 @import "~bulma-extensions/bulma-divider/dist/css/bulma-divider.min.css";
-.has-bg-img { background: url('../assets/background6.png')center center; background-size:cover; }
+@import "~bulma-extensions/bulma-accordion/dist/css/bulma-accordion.min.css";
+.has-bg-img { background: url('../assets/background10.jpg') no-repeat center center fixed; background-size:cover; }
 .no-padding {padding: 0 !important;}
 </style>

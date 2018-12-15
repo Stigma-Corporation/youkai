@@ -52,32 +52,34 @@
             <router-link to="/members" class="navbar-item" v-on:click.native="UpdateMemberData" v-if="token">
               Состав
             </router-link>
-            <div class="navbar-item has-dropdown is-hoverable" v-if="token">
-              <a class="navbar-link">
-                Рейды
-              </a>
+            <template v-if="raids">
+              <div class="navbar-item has-dropdown is-hoverable" v-if="token">
+                <a class="navbar-link">
+                  Рейды
+                </a>
 
-              <div class="navbar-dropdown">
-                <div v-for="(raid, index) in raids">
-                  <template v-if="adminStatus === 'admin access granted'">
-                    <router-link v-on:click.native="UpdateNewsRaidData" v-bind:to="{name: 'raid', params: {id: index}}" class="navbar-item">
-                      {{raid["title"]}}
-                    </router-link>
-                    <hr class="navbar-divider">
-                  </template>
-                    <template v-else-if="raid['users'].includes(currentUser['username'])">
+                <div class="navbar-dropdown">
+                  <div v-for="(raid, index) in raids">
+                    <template v-if="adminStatus === 'admin access granted'">
                       <router-link v-on:click.native="UpdateNewsRaidData" v-bind:to="{name: 'raid', params: {id: index}}" class="navbar-item">
                         {{raid["title"]}}
                       </router-link>
                       <hr class="navbar-divider">
                     </template>
-                  <template v-else></template>
+                    <template v-else-if="raid['users'] !== undefined && raid['users'].includes(currentUser['username'])">
+                      <router-link v-on:click.native="UpdateNewsRaidData" v-bind:to="{name: 'raid', params: {id: index}}" class="navbar-item">
+                        {{raid["title"]}}
+                      </router-link>
+                      <hr class="navbar-divider">
+                    </template>
+                    <template v-else></template>
+                  </div>
+                  <router-link to="/createraid" class="navbar-item" v-if="adminStatus === 'admin access granted'">
+                    Добавить | Изменить
+                  </router-link>
                 </div>
-                <router-link to="/createraid" class="navbar-item" v-if="adminStatus === 'admin access granted'">
-                  Добавить | Изменить
-                </router-link>
               </div>
-            </div>
+            </template>
 
             <router-link to="/editmembers" class="navbar-item" v-on:click.native="UpdateMemberData"
                          v-if="adminStatus === 'admin access granted'">
@@ -241,16 +243,16 @@ export default {
   // },
   mounted: function () {
     let mainThis = this;
-    let callCount = 1;
+    let callCount = 0;
     let repeater = setInterval(function () {
-      if (callCount < 3) {
+      if (callCount < 10) {
         mainThis.UpdateLoaderData();
         mainThis.toggleBodyClass();
         callCount += 1;
       } else {
         clearInterval(repeater);
       }
-    }, 3000);
+    }, 1000);
   }
 }
 
@@ -258,6 +260,7 @@ export default {
 
 <style lang="scss">
 @import "assets/normalize.css";
+$tooltip-max-width: 280px;
 .test-enter-active,
 .test-leave-active {
   transition-duration: 0.5s;

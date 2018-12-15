@@ -289,5 +289,5 @@ export default {
 </script>
 
 <style scoped>
-.has-bg-img { background: url('../assets/background7.jpg')center center; background-size:cover; }
+.has-bg-img { background: url('../assets/background7.jpg') no-repeat center center fixed; background-size:cover; }
 </style>

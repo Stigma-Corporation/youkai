@@ -33,9 +33,9 @@
                       </div>
                     </div>
                     <div class="field">
-                      <label class="label">Название</label>
+                      <label class="label">Название (>=20 символов)</label>
                       <div class="control">
-                        <input class="input" type="text" placeholder="..." maxlength="8"
+                        <input class="input" type="text" placeholder="..." maxlength="20"
                                v-model="createEventForm['brief']" v-on:input="CheckForm">
                       </div>
                     </div>
@@ -267,5 +267,5 @@ export default {
 </script>
 
 <style scoped>
-.has-bg-img { background: url('../assets/background7.jpg')center center; background-size:cover; }
+.has-bg-img { background: url('../assets/background7.jpg') no-repeat center center fixed; background-size:cover; }
 </style>
